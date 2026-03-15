@@ -1,0 +1,11 @@
+-r base.in
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+httpx
+
+# Code quality
+black
+mypy
