@@ -54,5 +54,13 @@ pipeline {
                      subject: "Deployment Notification: ${WS} - Build #${env.BUILD_NUMBER}",
                      to: "dev-team@example.com"
         }
+
+        success {
+            setBuildStatus("Deployment Successful", "SUCCESS")
+        }
+
+        failure {
+            setBuildStatus("Deployment Failed", "FAILURE")
+        }
     }
 }
