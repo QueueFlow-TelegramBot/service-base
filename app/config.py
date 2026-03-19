@@ -15,12 +15,12 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # Database
-    DATABASE_URL: str
+    DATABASE_URL: str = "postgresql://user:password@localhost:5432/smartcampus_users"
     DB_POOL_SIZE: int = 5
     DB_MAX_OVERFLOW: int = 10
 
     # JWT
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str = "dev-secret-key-change-in-production-please"
     JWT_ALGORITHM: str = "HS256"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
