@@ -18,8 +18,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                githubNotify
-                    context: 'Docker Build',
+                githubNotify credentialsId: 'github-hook-token',
                     status: 'PENDING',
                     description: "Building Docker image for ${WS} in ${ENV}"
 
@@ -31,8 +30,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                githubNotify
-                    context: 'Docker Push',
+                githubNotify credentialsId: 'github-hook-token',
                     status: 'PENDING',
                     description: "Pushing Docker image for ${WS} in ${ENV}"
 
@@ -49,8 +47,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                githubNotify
-                    context: 'Kubernetes Deploy',
+                githubNotify credentialsId: 'github-hook-token',
                     status: 'PENDING',
                     description: "Deploying ${WS} to ${ENV} environment"
 
@@ -67,15 +64,19 @@ pipeline {
         always {
             emailext body: "Project: ${WS}\nBuild: ${env.BUILD_NUMBER}\nResult: ${currentBuild.currentResult}",
                      subject: "Deployment Notification: ${WS} - Build #${env.BUILD_NUMBER}",
-                     to: ${MAIL_TO}
+                     to: "${MAIL_TO}"
         }
 
         success {
-            githubNotify context: 'Pipeline', status: 'SUCCESS', description: "Deployment successful for ${WS} in ${ENV}"
+            githubNotify credentialsId: 'github-hook-token',
+                status: 'SUCCESS',
+                description: "Deployment successful for ${WS} in ${ENV}"
         }
 
         failure {
-            githubNotify context: 'Pipeline', status: 'FAILURE', description: "Deployment failed for ${WS} in ${ENV}"
+            githubNotify credentialsId: 'github-hook-token',
+                status: 'FAILURE',
+                description: "Deployment failed for ${WS} in ${ENV}"
         }
     }
 }
